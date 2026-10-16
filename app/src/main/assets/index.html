@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0e1815">
+<title>Quiet Miles</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="gl" aria-label="Endless road through changing landscapes"></canvas>
+
+<div id="hud">
+  <div id="stats">
+    <div class="big"><span id="trip">0.0</span><small>km</small></div>
+    <div class="sub"><span id="clock">17:30</span> · <span id="wx">Clear</span></div>
+  </div>
+
+  <div id="tools">
+    <button class="ib glass" id="bLight" aria-label="Headlights" data-state="0">
+      <svg viewBox="0 0 24 24"><path d="M12 5c-4 0-6 3-6 7s2 7 6 7"/><path d="M12 5v14"/><path d="M15 8h6M15 12h6M15 16h6" class="beam"/></svg>
+      <i id="lightTag">OFF</i>
+    </button>
+    <button class="ib glass" id="bCam" aria-label="Change camera"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.6-2h6.8L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.3"/></svg></button>
+    <button class="ib glass" id="bGarage" aria-label="Garage"><svg viewBox="0 0 24 24"><path d="M3 12l2-5h14l2 5v6h-3v-2H6v2H3z"/><circle cx="7.5" cy="13.5" r="1"/><circle cx="16.5" cy="13.5" r="1"/></svg></button>
+    <button class="ib glass" id="bHide" aria-label="Hide interface"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.6-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.6 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></svg></button>
+    <button class="ib glass" id="bSet" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
+  </div>
+
+  <div id="toast"></div>
+
+  <div id="steerWheel" class="wheelzone" aria-label="Steering wheel">
+    <svg id="wheelSvg" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="86" class="w-rim"/>
+      <circle cx="100" cy="100" r="86" class="w-grip"/>
+      <path d="M100 100 L22 112 M100 100 L178 112 M100 100 L100 178" class="w-spoke"/>
+      <circle cx="100" cy="100" r="22" class="w-hub"/>
+      <path d="M100 8 v22" class="w-mark"/>
+    </svg>
+  </div>
+  <div id="steerBtns" class="steerbtns" hidden>
+    <button id="sbL" aria-label="Steer left"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button id="sbR" aria-label="Steer right"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+
+  <div id="dash"><canvas id="gauge" width="400" height="400"></canvas></div>
+
+  <div id="pedals">
+    <div class="mini">
+      <button id="bGear" class="rnd glass" aria-label="Gear: drive or reverse"><b id="gearTxt">D</b><small>gear</small></button>
+      <button id="bHorn" class="rnd glass" aria-label="Horn"><svg viewBox="0 0 24 24"><path d="M4 10v4h3l5 4V6l-5 4z"/><path d="M16 9c1.3 1 1.3 5 0 6M18.5 7c2.6 2.3 2.6 7.7 0 10"/></svg><small>horn</small></button>
+    </div>
+    <button id="pBrake" class="pedal brake" aria-label="Brake"><span>BRAKE</span></button>
+    <button id="pGas" class="pedal gas" aria-label="Accelerator"><span>GAS</span></button>
+  </div>
+</div>
+
+<section id="intro">
+  <div class="card glass">
+    <h1>Quiet<br>Miles</h1>
+    <p>An endless road through meadows, autumn woods, pine highlands and golden dunes. You drive: gas, brake, steering, gears and headlights. Nothing to win.</p>
+    <ul>
+      <li><b>Wheel</b> on the left steers. Let go and it centres.</li>
+      <li><b>Gas</b> and <b>brake</b> pedals on the right. Stop to switch D / R.</li>
+      <li><b>Garage</b> icon to change vehicle and paint</li>
+    </ul>
+    <button id="go">Start driving</button>
+  </div>
+</section>
+
+<section id="garage" class="sheet glass" hidden aria-label="Garage">
+  <div class="in">
+    <header><h2>Garage</h2><button class="ib" id="gClose" aria-label="Close garage"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <div id="vList" class="vgrid"></div>
+    <div class="row"><div class="lab">Paint <output id="paintName"></output></div><div id="paints" class="swatches"></div></div>
+  </div>
+</section>
+
+<section id="sheet" class="sheet glass" hidden aria-label="Settings">
+  <div class="in">
+    <header><h2>Settings</h2><button class="ib" id="sClose" aria-label="Close settings"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <div class="row"><div class="lab">Time of day</div>
+      <div class="seg" id="sTime"><button data-v="auto">Flowing</button><button data-v="6.8">Dawn</button><button data-v="12">Noon</button><button data-v="17.6">Golden</button><button data-v="22">Night</button></div></div>
+    <div class="row"><div class="lab">Weather</div>
+      <div class="seg" id="sWx"><button data-v="clear">Clear</button><button data-v="mist">Mist</button><button data-v="rain">Soft rain</button></div></div>
+    <div class="row"><label for="rVol">Sound <output id="oVol"></output></label><input type="range" id="rVol" min="0" max="100" step="1"></div>
+    <div class="row"><div class="lab">Steering control</div>
+      <div class="seg" id="sSteer"><button data-v="wheel">Wheel</button><button data-v="buttons">Buttons</button></div></div>
+    <div class="row"><div class="lab">Speed units</div>
+      <div class="seg" id="sUnit"><button data-v="kmh">km/h</button><button data-v="mph">mph</button></div></div>
+    <div class="row"><div class="lab">Camera</div>
+      <div class="seg" id="sCam"><button data-v="0">Chase</button><button data-v="1">High</button><button data-v="2">Hood</button></div></div>
+    <div class="row"><div class="lab">Picture quality</div>
+      <div class="seg" id="sQ"><button data-v="0">Light</button><button data-v="1">Balanced</button><button data-v="2">Sharp</button></div></div>
+    <div class="two"><button class="act" id="bBack">Back on the road</button><button class="act" id="bNew">New road</button></div>
+  </div>
+</section>
+
+<script src="js/three.min.js"></script>
+<script src="js/world.js"></script>
+<script src="js/vehicles.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/environment.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>

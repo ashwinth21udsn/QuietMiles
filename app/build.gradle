@@ -1,0 +1,29 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.quietmiles.game'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.quietmiles.game"
+        minSdk 26
+        targetSdk 34
+        versionCode 2
+        versionName "2.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+// No third-party libraries: the game is plain HTML, CSS and JavaScript in app/src/main/assets,
+// shown full screen in a WebView by MainActivity.

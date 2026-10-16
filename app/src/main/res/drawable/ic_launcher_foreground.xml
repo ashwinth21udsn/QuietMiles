@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sun over hills with a road running to the horizon (inside the 66dp adaptive-icon safe zone) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#F0BB6E"
+        android:pathData="M54,30 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0" />
+    <path
+        android:fillColor="#3E7A57"
+        android:pathData="M12,66 C26,50 40,52 54,60 C68,50 84,48 96,66 L96,98 L12,98 Z" />
+    <path
+        android:fillColor="#2A5C44"
+        android:pathData="M12,74 C30,62 44,66 54,70 C66,64 82,62 96,74 L96,98 L12,98 Z" />
+    <path
+        android:fillColor="#3D4144"
+        android:pathData="M50.5,58 L57.5,58 L82,98 L26,98 Z" />
+    <path
+        android:fillColor="#F4E7B4"
+        android:pathData="M53.3,60 L54.7,60 L55.1,64 L52.9,64 Z M52.6,69 L55.4,69 L56.1,76 L51.9,76 Z M51.6,82 L56.4,82 L57.6,94 L50.4,94 Z" />
+</vector>
